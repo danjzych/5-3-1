@@ -1,6 +1,6 @@
 # 5-3-1 API
 
-REST API for
+REST API for 5-3-1 App.
 
 Run `npm install` and then `npm run ...`:
 

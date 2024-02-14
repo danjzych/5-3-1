@@ -1,8 +1,8 @@
 {
   "name": "5-3-1-api",
   "version": "1.0.0",
-  "homepage": "https://github.com/rithmschool/start/",
-  "main": "server.js",
+  "homepage": "https://github.com/danjzych/5-3-1",
+  "main": "build/server.js",
   "type": "module",
   "scripts": {
     "start": "node $npm_package_main",
@@ -21,6 +21,7 @@
     "vitest": "^1.2.2"
   },
   "dependencies": {
-    "express": "^5.0.0-beta.1"
+    "express": "^5.0.0-beta.1",
+    "pg": "^8.11.3"
   }
 }
