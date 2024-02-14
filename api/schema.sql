@@ -8,17 +8,42 @@ CREATE TABLE users (
 )
 
 CREATE TABLE exercises (
-    exercise_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(50) UNIQUE NOT NULL,
 )
 
-CREATE TABLE training_maxes (
-    training_max_id PRIMARY KEY,
-    weight INT NOT NULL,
-    exercise_id INT NOT NULL REFERENCES exercises,
+CREATE TABLE training_blocks (
+    id SERIAL PRIMARY KEY,
     username VARCHAR(30) NOT NULL REFERENCES users,
+    start_date DATE NOT NULL DEFAULT NOW(),
+    end_date DATE,
+
+    UNIQUE(username & start_date)
 )
 
-CREATE TABLE cycles (
+CREATE TABLE training_maxes (
     id SERIAL PRIMARY KEY,
+    weight INT NOT NULL,
+    exercise_id INT NOT NULL REFERENCES exercises,
+    training_block_id NOT NULL REFERENCES training_block,
+)
+
+CREATE TABLE workouts (
+    id SERIAL PRIMARY KEY,
+    training_block_id NOT NULL REFERENCES training_block,
+    week INT NOT NULL
+        CHECK(week < 5),
+    day INT NOT NULL
+        CHECK(day < 7),
+    date DATE default NOW(),
+
+    UNIQUE(training_block_id, week, day, date)
+)
+
+CREATE TABLE sets (
+    training_block_id NOT NULL REFERENCES training_block,
+    exercise_id NOT NULL REFERENCES exercises,
+    set INT NOT NULL,
+    weight INT NOT NULL,
+    PRIMARY KEY(training_block_id, exercise_id, set)
 )
