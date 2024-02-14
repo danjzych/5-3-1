@@ -1,6 +1,6 @@
 import type { TrainingBlock } from "../types";
 
-export default abstract class Lift {
+abstract class Lift {
   protected _name: string;
   constructor(name: string) {
     this._name = name;
@@ -8,7 +8,7 @@ export default abstract class Lift {
   abstract get trainingBlock(): TrainingBlock;
 }
 
-class PrimaryLift extends Lift {
+export class PrimaryLift extends Lift {
   #trainingMax: number;
 
   constructor(name: string, trainingMax: number) {
@@ -69,7 +69,7 @@ class PrimaryLift extends Lift {
   }
 }
 
-class AccessoryLift extends Lift {
+export class AccessoryLift extends Lift {
   #weights: number[];
 
   constructor(name: string, weights: number[]) {
