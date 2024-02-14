@@ -1,4 +1,5 @@
 import type { TrainingBlock } from "../types";
+import { db } from "../db.js";
 
 abstract class Lift {
   protected _name: string;

@@ -5,7 +5,7 @@ const app: Application = express();
 app.use(express.json());
 
 /** Sample route */
-app.get("/", function (req, res) {});
+app.get("/", async function (req, res) {});
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
