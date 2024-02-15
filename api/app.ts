@@ -1,11 +1,15 @@
 import express, { Application, Request, Response, NextFunction } from "express";
+import morgan from "morgan";
 import { ExpressError, NotFoundError } from "./expressError.js";
 
-const app: Application = express();
-app.use(express.json());
+import exerciseRoutes from "./routes/exercises.js";
 
-/** Sample route */
-app.get("/", async function (req, res) {});
+const app: Application = express();
+
+app.use(express.json());
+app.use(morgan("tiny"));
+
+app.use("/exercises", exerciseRoutes);
 
 /** Handle 404 errors -- this matches everything */
 app.use(function (req, res, next) {
