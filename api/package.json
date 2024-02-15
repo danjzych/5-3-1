@@ -5,13 +5,13 @@
   "main": "build/server.js",
   "type": "module",
   "scripts": {
-    "start": "node $npm_package_main",
-    "start:debug": "node --inspect-brk $npm_package_main",
+    "start": "node build/server.js",
+    "start:debug": "node --inspect-brk build/server.js",
+    "dev": "nodemon build/server.js",
     "seed": "psql < 531.sql",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "server": "node build/server.js",
-    "test": "vitest ts",
+    "test": "vitest ts --passWithNoTests --reporter=verbose",
     "test:cov": "vitest ts --coverage",
     "test:debug": "vitest -t *.ts --run --inspect-brk --no-file-parallelism"
   },

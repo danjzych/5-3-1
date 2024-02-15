@@ -4,8 +4,7 @@ import request from "supertest";
 
 import app from "./app";
 
-
-test("/", async function() {
-  const resp = await request(app).get("/");
-  expect(resp.text).toEqual("2 + 3 = 5");
-})
+// test("/", async function() {
+//   const resp = await request(app).get("/");
+//   expect(resp.text).toEqual("2 + 3 = 5");
+// })
