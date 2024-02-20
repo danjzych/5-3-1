@@ -1,5 +1,4 @@
 /** Database Setup */
-
 import pkg from "pg";
 const { Client } = pkg;
 
