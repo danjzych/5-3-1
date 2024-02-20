@@ -10,7 +10,7 @@ import {
 } from "vitest";
 import { db } from "../db";
 import User from "./User";
-import { BadRequestError } from "../expressError";
+import { BadRequestError, NotFoundError } from "../expressError";
 
 import {
   commonBeforeAll,
@@ -97,4 +97,21 @@ describe("register", () => {
 
 describe("autehnticate", () => {});
 
-describe("get", () => {});
+describe("get", () => {
+  it("existing user", async () => {
+    const testUser = await User.get("testuser");
+
+    expect(testUser).toBeInstanceOf(User);
+    expect(testUser).toMatchObject({
+      username: "testuser",
+      email: "test@531.com",
+      isAdmin: false,
+    });
+  });
+
+  it("throws NotFoundError", async () => {
+    expect(async () => {
+      await User.get("doesnotexist");
+    }).rejects.toThrow(NotFoundError);
+  });
+});
