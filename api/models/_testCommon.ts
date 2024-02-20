@@ -9,6 +9,10 @@ export async function commonBeforeAll(): Promise<void> {
   await db.query("DELETE FROM training_blocks;");
   await db.query("DELETE FROM training_maxes;");
   await db.query("DELETE FROM users;");
+
+  await db.query(
+    `INSERT INTO users (username, password, email, is_Admin) VALUES ('testuser', 'testpw', 'test@531.com', FALSE)`
+  );
 }
 
 export async function commonBeforeEach(): Promise<void> {
