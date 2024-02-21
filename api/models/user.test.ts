@@ -10,7 +10,11 @@ import {
 } from "vitest";
 import { db } from "../db";
 import User from "./User";
-import { BadRequestError, NotFoundError } from "../expressError";
+import {
+  BadRequestError,
+  NotFoundError,
+  UnauthorizedError,
+} from "../expressError";
 
 import {
   commonBeforeAll,
@@ -95,7 +99,19 @@ describe("register", () => {
   });
 });
 
-describe("autehnticate", () => {});
+describe("autehnticate", () => {
+  it("returns user with valid user + pw", async () => {
+    const testData = await User.authenticate("testuser", "testpassword");
+
+    expect(testData).toBeInstanceOf(User);
+  });
+
+  it("throws Unauthorized error", async () => {
+    expect(
+      async () => await User.authenticate("testuser2", "badpassword")
+    ).rejects.toThrow(UnauthorizedError);
+  });
+});
 
 describe("get", () => {
   it("existing user", async () => {
