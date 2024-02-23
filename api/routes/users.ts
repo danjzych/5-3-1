@@ -1,8 +1,6 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express from "express";
 import User from "../models/User.js";
 import { ensureCorrectUserOrAdmin } from "../middleware/auth.js";
-
-import { ExpressError, NotFoundError } from "../expressError.js";
 
 const router = express.Router({ mergeParams: true });
 

@@ -1,7 +1,5 @@
-import express, { Application, Request, Response, NextFunction } from "express";
+import express from "express";
 import Exercise from "../models/Exercise.js";
-
-import { ExpressError, NotFoundError } from "../expressError.js";
 
 const router = express.Router({ mergeParams: true });
 

@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import User from "../models/User.js";
 import { createToken } from "../helpers/token.js";
 import * as jsonschema from "jsonschema";
