@@ -1,7 +1,9 @@
-import express from "express";
+import express, { json } from "express";
 import User from "../models/User.js";
 import { createToken } from "../helpers/token.js";
-import { ExpressError, NotFoundError } from "../expressError.js";
+import * as jsonschema from "jsonschema";
+import authSchema from "../schemas/auth.json" assert { type: "json" };
+import { BadRequestError } from "../expressError.js";
 
 const router = express.Router({ mergeParams: true });
 
@@ -13,13 +15,13 @@ const router = express.Router({ mergeParams: true });
  */
 
 router.post("/token", async function (req, res, next) {
-  // const validator = jsonschema.validate(req.body, userAuthSchema, {
-  //   required: true,
-  // });
-  // if (!validator.valid) {
-  //   const errs = validator.errors.map((e) => e.stack);
-  //   throw new BadRequestError(errs);
-  // }
+  const validator = jsonschema.validate(req.body, authSchema, {
+    required: true,
+  });
+  if (!validator.valid) {
+    const errs = validator.errors.map((e) => e.stack).join(", ");
+    throw new BadRequestError(errs);
+  }
 
   const { username, password } = req.body;
   const user = await User.authenticate(username, password);

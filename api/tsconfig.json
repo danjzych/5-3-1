@@ -1,10 +1,12 @@
 {
     "compilerOptions": {
-        "target": "ES2021",
+        "target": "ESNext",
         "strict": true,
         "skipLibCheck": true,
         "moduleResolution": "Node",
         "allowSyntheticDefaultImports": true,
-        "outDir": "build"
+        "outDir": "build",
+        "resolveJsonModule": true,
+        "module": "ESNext"
     },
 }
