@@ -15,7 +15,7 @@ export default class User {
     readonly email: string,
     readonly isAdmin: boolean,
     readonly joinDate: Date,
-    readonly trainingBlock?: TrainingBlock[]
+    readonly trainingBlock?: TrainingBlock
   ) {}
 
   /** Authenticate a user. Throw error is name + PW incorrect */
@@ -88,6 +88,7 @@ export default class User {
     return new User(user.username, user.email, user.isAdmin, user.joinDate);
   }
 
+  /** Get user's training maxes */
   static async getTrainingMaxes(username: string): Promise<TrainingMax[]> {
     const currentTrainingBlock = await db.query(
       `
@@ -111,12 +112,23 @@ export default class User {
     return currentTrainingMaxes.rows;
   }
 
-  private static async getTrainingBlock(username: string) {
+  /** Get user's current training block. Should not be called outside class */
+  private static async getTrainingBlock(
+    username: string
+  ): Promise<TrainingBlock> {
     const currentTrainingMaxes = await this.getTrainingMaxes(username);
 
-    return currentTrainingMaxes.map(
-      (m) => new PrimaryLift(m.exercise, m.weight).trainingBlock
+    const primaryLifts = currentTrainingMaxes.map(
+      (m) => new PrimaryLift(m.exercise, m.weight)
     );
+
+    const currentTrainingBlock: TrainingBlock = {};
+
+    for (const lift of primaryLifts) {
+      currentTrainingBlock[lift.exercise] = lift.trainingBlock;
+    }
+
+    return currentTrainingBlock;
   }
 
   /** Get a user by username. Throw error if they do not exist */

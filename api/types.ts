@@ -10,15 +10,6 @@ interface PrimarySet extends Set {
 
 type RepScheme = Array<PrimarySet | Set>;
 
-export type TrainingBlock = {
-  exercise: string;
-  trainingMax?: number;
-  weekOne: RepScheme;
-  weekTwo: RepScheme;
-  weekThree: RepScheme;
-  deload: RepScheme;
-};
-
 export type TrainingMax = {
   exercise:
     | "Back Squat"
@@ -29,10 +20,13 @@ export type TrainingMax = {
   weight: number;
 };
 
-// export interface iLift {
-//   readonly _name: string;
-// }
+//TODO: will eventually expand to have blocks for primary and non primary lists
+export type ExerciseBlock = {
+  trainingMax?: number;
+  weekOne: RepScheme;
+  weekTwo: RepScheme;
+  weekThree: RepScheme;
+  deload: RepScheme;
+};
 
-// export interface iPrimaryLift extends iLift {
-//   readonly trainingMax: number;
-// }
+export type TrainingBlock = Record<string, ExerciseBlock>;
