@@ -1,10 +1,10 @@
 INSERT INTO users (username, password, email, is_admin)
 VALUES ('danielz',
-        'ethetyjrjrsyj',
+        '$2a$12$rycafGjHBe9JM1Vxy1U8xe0SKhBgMUfngxIpjSlCZHQ4U7I7TfAqe',
         'danielz@email.com',
         TRUE),
         ('jimwendler',
-        'ethetyjrjrsyj',
+        '$2a$12$rycafGjHBe9JM1Vxy1U8xe0SKhBgMUfngxIpjSlCZHQ4U7I7TfAqe',
         'jim@531.com',
         FALSE);
 

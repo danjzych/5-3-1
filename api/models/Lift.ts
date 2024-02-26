@@ -1,10 +1,9 @@
 import type { TrainingBlock } from "../types";
-import { db } from "../db.js";
 
 abstract class Lift {
-  protected _name: string;
-  constructor(name: string) {
-    this._name = name;
+  protected _exercise: string;
+  constructor(exercise: string) {
+    this._exercise = exercise;
   }
   abstract get trainingBlock(): TrainingBlock;
 }
@@ -17,8 +16,8 @@ export class PrimaryLift extends Lift {
     this.#trainingMax = trainingMax;
   }
 
-  get name() {
-    return this._name;
+  get exercise() {
+    return this._exercise;
   }
 
   get trainingMax() {
@@ -27,6 +26,8 @@ export class PrimaryLift extends Lift {
 
   get trainingBlock(): TrainingBlock {
     return {
+      exercise: this._exercise,
+      trainingMax: this.trainingMax,
       weekOne: [
         { percentage: 0.65, weight: this.#trainingMax * 0.65, minReps: 5 },
         { percentage: 0.75, weight: this.#trainingMax * 0.75, minReps: 5 },
@@ -78,8 +79,8 @@ export class AccessoryLift extends Lift {
     this.#weights = weights;
   }
 
-  get name() {
-    return this._name;
+  get exercise() {
+    return this._exercise;
   }
 
   get weights() {
@@ -88,6 +89,7 @@ export class AccessoryLift extends Lift {
 
   get trainingBlock(): TrainingBlock {
     return {
+      exercise: this.exercise,
       weekOne: this.#weights.map((weight) => ({ weight, minReps: 8 })),
       weekTwo: this.#weights.map((weight) => ({ weight, minReps: 8 })),
       weekThree: this.#weights.map((weight) => ({ weight, minReps: 8 })),

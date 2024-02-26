@@ -1,11 +1,13 @@
 import { db } from "../db.js";
 import * as bcrypt from "bcrypt";
+import { PrimaryLift } from "./Lift.js";
 import { BCRYPT_WORK_FACTOR } from "../config.js";
 import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
 } from "../expressError.js";
+import { TrainingMax, TrainingBlock } from "../types.js";
 
 export default class User {
   constructor(
@@ -13,7 +15,7 @@ export default class User {
     readonly email: string,
     readonly isAdmin: boolean,
     readonly joinDate: Date,
-    readonly trainingMaxes?: { exercise: string; weight: number }[]
+    readonly trainingBlock?: TrainingBlock[]
   ) {}
 
   /** Authenticate a user. Throw error is name + PW incorrect */
@@ -36,13 +38,7 @@ export default class User {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
-        return new User(
-          user.username,
-          user.email,
-          user.isAdmin,
-          user.joinDate,
-          await this.getTrainingMaxes(username)
-        );
+        return new User(user.username, user.email, user.isAdmin, user.joinDate);
       }
     }
 
@@ -89,12 +85,12 @@ export default class User {
 
     const user = result.rows[0];
 
-    return new User(user.username, user.email, user.isAdmin, user.joinDate, []);
+    return new User(user.username, user.email, user.isAdmin, user.joinDate);
   }
 
   private static async getTrainingMaxes(
     username: string
-  ): Promise<{ exercise: string; weight: number }[]> {
+  ): Promise<TrainingMax[]> {
     const currentTrainingBlock = await db.query(
       `
     SELECT id
@@ -117,6 +113,14 @@ export default class User {
     return currentTrainingMaxes.rows;
   }
 
+  private static async getTrainingBlock(username: string) {
+    const currentTrainingMaxes = await this.getTrainingMaxes(username);
+
+    return currentTrainingMaxes.map(
+      (m) => new PrimaryLift(m.exercise, m.weight).trainingBlock
+    );
+  }
+
   /** Get a user by username. Throw error if they do not exist */
   static async get(username: string): Promise<User> {
     const result = await db.query(
@@ -130,12 +134,14 @@ export default class User {
 
     if (!user) throw new NotFoundError(`No user with username ${username}`);
 
+    const currentTrainingBlock = await this.getTrainingBlock(username);
+
     return new User(
       user.username,
       user.email,
       user.isAdmin,
       user.joinDate,
-      await this.getTrainingMaxes(username)
+      currentTrainingBlock
     );
   }
 }

@@ -11,16 +11,23 @@ interface PrimarySet extends Set {
 type RepScheme = Array<PrimarySet | Set>;
 
 export type TrainingBlock = {
+  exercise: string;
+  trainingMax?: number;
   weekOne: RepScheme;
   weekTwo: RepScheme;
   weekThree: RepScheme;
   deload: RepScheme;
 };
 
-// export type TrainingMax = {
-//   lift: "Back Squat" | "Deadlifts" | "Overhead Press" | "Bench Press" | "Dips";
-//   weight: number;
-// };
+export type TrainingMax = {
+  exercise:
+    | "Back Squat"
+    | "Deadlifts"
+    | "Overhead Press"
+    | "Bench Press"
+    | "Dips";
+  weight: number;
+};
 
 // export interface iLift {
 //   readonly _name: string;
