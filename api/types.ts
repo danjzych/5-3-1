@@ -17,10 +17,15 @@ export type TrainingBlock = {
   deload: RepScheme;
 };
 
-export interface iLift {
-  readonly _name: string;
-}
+// export type TrainingMax = {
+//   lift: "Back Squat" | "Deadlifts" | "Overhead Press" | "Bench Press" | "Dips";
+//   weight: number;
+// };
 
-export interface iPrimaryLift extends iLift {
-  readonly trainingMax: number;
-}
+// export interface iLift {
+//   readonly _name: string;
+// }
+
+// export interface iPrimaryLift extends iLift {
+//   readonly trainingMax: number;
+// }

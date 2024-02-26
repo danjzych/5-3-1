@@ -12,7 +12,8 @@ export default class User {
     readonly username: string,
     readonly email: string,
     readonly isAdmin: boolean,
-    readonly joinDate: Date
+    readonly joinDate: Date,
+    readonly trainingMaxes?: { name: string; weight: number }[]
   ) {}
 
   /** Authenticate a user. Throw error is name + PW incorrect */
@@ -35,7 +36,13 @@ export default class User {
       // compare hashed password to a new hash from password
       const isValid = await bcrypt.compare(password, user.password);
       if (isValid === true) {
-        return new User(user.username, user.email, user.isAdmin, user.joinDate);
+        return new User(
+          user.username,
+          user.email,
+          user.isAdmin,
+          user.joinDate,
+          []
+        );
       }
     }
 
@@ -82,7 +89,7 @@ export default class User {
 
     const user = result.rows[0];
 
-    return new User(user.username, user.email, user.isAdmin, user.joinDate);
+    return new User(user.username, user.email, user.isAdmin, user.joinDate, []);
   }
 
   /** Get a user by username. Throw error if they do not exist */
@@ -98,6 +105,35 @@ export default class User {
 
     if (!user) throw new NotFoundError(`No user with username ${username}`);
 
-    return new User(user.username, user.email, user.isAdmin, user.joinDate);
+    const currentTrainingBlock = await db.query(
+      `
+    SELECT id
+    FROM training_blocks
+    WHERE username = $1
+    `,
+      [username]
+    );
+
+    if (currentTrainingBlock.rows[0]?.id) {
+      const currentTrainingMaxes = await db.query(
+        `
+        SELECT exercises.name AS exercise, training_maxes.weight_lb AS weight
+        FROM training_maxes
+        INNER JOIN exercises ON training_maxes.exercise_id = exercises.id
+        WHERE training_maxes.training_block_id = $1
+      `,
+        [currentTrainingBlock.rows[0].id]
+      );
+
+      return new User(
+        user.username,
+        user.email,
+        user.isAdmin,
+        user.joinDate,
+        currentTrainingMaxes.rows
+      );
+    }
+
+    return new User(user.username, user.email, user.isAdmin, user.joinDate, []);
   }
 }
