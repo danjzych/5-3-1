@@ -88,9 +88,7 @@ export default class User {
     return new User(user.username, user.email, user.isAdmin, user.joinDate);
   }
 
-  private static async getTrainingMaxes(
-    username: string
-  ): Promise<TrainingMax[]> {
+  static async getTrainingMaxes(username: string): Promise<TrainingMax[]> {
     const currentTrainingBlock = await db.query(
       `
     SELECT id

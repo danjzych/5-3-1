@@ -14,4 +14,14 @@ router.get(
   }
 );
 
+router.get(
+  "/:username/training-maxes",
+  ensureCorrectUserOrAdmin,
+  async function (req, res, next) {
+    const training_maxes = await User.getTrainingMaxes(req.params.username);
+
+    return res.json({ training_maxes });
+  }
+);
+
 export default router;
