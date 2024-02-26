@@ -122,7 +122,7 @@ export default class User {
       (m) => new PrimaryLift(m.exercise, m.weight)
     );
 
-    const currentTrainingBlock: TrainingBlock = {};
+    const currentTrainingBlock: TrainingBlock = {} as TrainingBlock;
 
     for (const lift of primaryLifts) {
       currentTrainingBlock[lift.exercise] = lift.trainingBlock;
