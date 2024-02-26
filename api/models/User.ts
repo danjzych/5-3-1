@@ -13,7 +13,7 @@ export default class User {
     readonly email: string,
     readonly isAdmin: boolean,
     readonly joinDate: Date,
-    readonly trainingMaxes?: { name: string; weight: number }[]
+    readonly trainingMaxes?: { exercise: string; weight: number }[]
   ) {}
 
   /** Authenticate a user. Throw error is name + PW incorrect */
@@ -41,7 +41,7 @@ export default class User {
           user.email,
           user.isAdmin,
           user.joinDate,
-          []
+          await this.getTrainingMaxes(username)
         );
       }
     }
@@ -92,6 +92,31 @@ export default class User {
     return new User(user.username, user.email, user.isAdmin, user.joinDate, []);
   }
 
+  private static async getTrainingMaxes(
+    username: string
+  ): Promise<{ exercise: string; weight: number }[]> {
+    const currentTrainingBlock = await db.query(
+      `
+    SELECT id
+    FROM training_blocks
+    WHERE username = $1
+    `,
+      [username]
+    );
+
+    const currentTrainingMaxes = await db.query(
+      `
+        SELECT exercises.name AS exercise, training_maxes.weight_lb AS weight
+        FROM training_maxes
+        INNER JOIN exercises ON training_maxes.exercise_id = exercises.id
+        WHERE training_maxes.training_block_id = $1
+      `,
+      [currentTrainingBlock.rows[0]?.id]
+    );
+
+    return currentTrainingMaxes.rows;
+  }
+
   /** Get a user by username. Throw error if they do not exist */
   static async get(username: string): Promise<User> {
     const result = await db.query(
@@ -105,35 +130,12 @@ export default class User {
 
     if (!user) throw new NotFoundError(`No user with username ${username}`);
 
-    const currentTrainingBlock = await db.query(
-      `
-    SELECT id
-    FROM training_blocks
-    WHERE username = $1
-    `,
-      [username]
+    return new User(
+      user.username,
+      user.email,
+      user.isAdmin,
+      user.joinDate,
+      await this.getTrainingMaxes(username)
     );
-
-    if (currentTrainingBlock.rows[0]?.id) {
-      const currentTrainingMaxes = await db.query(
-        `
-        SELECT exercises.name AS exercise, training_maxes.weight_lb AS weight
-        FROM training_maxes
-        INNER JOIN exercises ON training_maxes.exercise_id = exercises.id
-        WHERE training_maxes.training_block_id = $1
-      `,
-        [currentTrainingBlock.rows[0].id]
-      );
-
-      return new User(
-        user.username,
-        user.email,
-        user.isAdmin,
-        user.joinDate,
-        currentTrainingMaxes.rows
-      );
-    }
-
-    return new User(user.username, user.email, user.isAdmin, user.joinDate, []);
   }
 }
