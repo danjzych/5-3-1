@@ -1,3 +1,10 @@
+export type PrimaryLiftName =
+  | "Back Squat"
+  | "Deadlifts"
+  | "Overhead Press"
+  | "Bench Press"
+  | "Dips";
+
 interface Set {
   weight: number;
   minReps: number;
@@ -11,12 +18,7 @@ interface PrimarySet extends Set {
 type RepScheme = Array<PrimarySet | Set>;
 
 export type TrainingMax = {
-  exercise:
-    | "Back Squat"
-    | "Deadlifts"
-    | "Overhead Press"
-    | "Bench Press"
-    | "Dips";
+  exercise: PrimaryLiftName;
   weight: number;
 };
 
@@ -29,4 +31,4 @@ export type ExerciseBlock = {
   deload: RepScheme;
 };
 
-export type TrainingBlock = Record<string, ExerciseBlock>;
+export type TrainingBlock = Record<PrimaryLiftName, ExerciseBlock>;
