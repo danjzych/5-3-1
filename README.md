@@ -6,4 +6,7 @@ Full-stack project for planning and tracking the classic [5/3/1 powerlifting pro
 
 This repository contains both the frontend and backend of the application.
 
-The backend is contained within `/api`.
+The frontend of the application is contained within `/app`.
+The backend API is contained within `/api`.
+
+Each has their own `package.json` and dev dependencies. Each contains their own corresponding `README.md` with details about each section.
