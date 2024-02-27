@@ -1,1 +1,3 @@
-<p>Welcome to 5/3/1!</p>
+<script lang="ts">
+	import _531API from '$lib/api';
+</script>
