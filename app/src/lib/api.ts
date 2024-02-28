@@ -26,9 +26,11 @@ export default class _531API {
 		return await resp.json();
 	}
 
-	static async login(username: string, password: string) {
+	static async login(username: string, password: string): Promise<string> {
 		const data = { username, password };
 
-		return await _531API.request('auth/token', data, 'POST');
+		const resp = await _531API.request('auth/token', data, 'POST');
+
+		return resp.token;
 	}
 }
