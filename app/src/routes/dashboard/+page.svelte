@@ -13,6 +13,7 @@
 		<TrainingBlockAccordion trainingBlock={$user?.trainingBlock} />
 	</section>
 {:else}
+	<h3>Time to set up your 5/3/1 programming!</h3>
 	<p>
 		Looks like you don't have any training maxes yet. Set some to get your
 		training block

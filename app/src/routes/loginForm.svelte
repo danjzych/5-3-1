@@ -42,7 +42,7 @@
 			id="username"
 			autocomplete="username"
 			bind:value={username}
-			class="rounded-md border-2 px-2"
+			class="border-thunderbird-950 rounded-md border px-2"
 		/>
 	</div>
 	<div>
@@ -53,7 +53,7 @@
 			id="password"
 			autocomplete="current-password"
 			bind:value={password}
-			class="rounded-md border-2 px-2"
+			class="border-thunderbird-950 rounded-md border px-2"
 		/>
 	</div>
 	{#if error}

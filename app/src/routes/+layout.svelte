@@ -46,7 +46,7 @@
 	}
 
 	$: {
-		if ($user) goto('/home');
+		if ($user) goto('/dashboard');
 	}
 </script>
 
