@@ -8,5 +8,5 @@
 	<p class="text-gray-500">Login to see your current training block</p>
 	<LoginForm />
 	<p class="text-gray-500">or</p>
-	<a href="/sign-up">Sign up</a>
+	<a href="/signup">Sign up</a>
 </div>
