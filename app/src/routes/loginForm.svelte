@@ -1,22 +1,36 @@
 <script lang="ts">
 	import _531API from '$lib/api';
+	import { token } from './_stores';
 
 	let username: string;
 	let password: string;
 	let error: any;
 
+	/** 'Submit' form and make call to api for token*/
 	async function login() {
+		console.debug('login');
+
 		try {
-			const token = await _531API.login(username, password);
+			$token = await _531API.login(username, password);
 		} catch (err) {
-			error = err;
+			let message: string;
+
+			if (err instanceof Error) {
+				message = err.message;
+			} else {
+				message = String(err);
+			}
+
+			error = message;
+			$token = null;
+			console.error(message);
 		}
 	}
 </script>
 
 <form
 	class="my-2 flex min-w-full flex-col items-center gap-2 rounded-md border-2 p-3"
-	on:submit={() => login()}
+	on:submit={login}
 >
 	<div>
 		<label for="username" class="font-light">Username: </label>
