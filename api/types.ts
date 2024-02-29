@@ -24,6 +24,7 @@ export type TrainingMax = {
 
 //TODO: will eventually expand to have blocks for primary and non primary lists
 export type ExerciseBlock = {
+  exercise: PrimaryLiftName;
   trainingMax?: number;
   weekOne: RepScheme;
   weekTwo: RepScheme;
@@ -31,7 +32,7 @@ export type ExerciseBlock = {
   deload: RepScheme;
 };
 
-export type TrainingBlock = Record<PrimaryLiftName, ExerciseBlock>;
+export type TrainingBlock = Array<ExerciseBlock>;
 
 export interface iUser {
   readonly username: string;

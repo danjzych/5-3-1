@@ -119,16 +119,12 @@ export default class User implements iUser {
     const currentTrainingMaxes = await this.getTrainingMaxes(username);
 
     const primaryLifts = currentTrainingMaxes.map(
-      (m) => new PrimaryLift(m.exercise, m.weight)
+      (m) => new PrimaryLift(m.exercise, m.weight).trainingBlock
     );
 
     const currentTrainingBlock: TrainingBlock = {} as TrainingBlock;
 
-    for (const lift of primaryLifts) {
-      currentTrainingBlock[lift.exercise] = lift.trainingBlock;
-    }
-
-    return currentTrainingBlock;
+    return primaryLifts;
   }
 
   /** Get a user by username. Throw error if they do not exist */

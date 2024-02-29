@@ -5,7 +5,7 @@
 </script>
 
 <div class="join join-vertical my-4 w-full">
-	{#each Object.entries(trainingBlock) as [exercise, block], i}
+	{#each trainingBlock as exercise, i}
 		<div class="collapse-arrow join-item border-base-950 collapse border">
 			<input
 				type="radio"
@@ -13,12 +13,49 @@
 				checked={i === 0}
 			/>
 			<h4 class="collapse-title font-medium">
-				{exercise}
+				{exercise.exercise}
 			</h4>
 			<div class="collapse-content grid grid-cols-4">
-				{#each Object.entries(block) as [_, workout], i}
-					<h5 class="col-span-1 text-center">Week {i + 1}</h5>
-				{/each}
+				<div class="col-span-1 text-center">
+					<h5>Week {i + 1}</h5>
+					<ul>
+						{#each exercise.weekOne as set}
+							<li>
+								1 x {set.minReps} @ {set.weight}, {set.percentage * 100}%
+							</li>
+						{/each}
+					</ul>
+				</div>
+				<div class="col-span-1 text-center">
+					<h5>Week {i + 2}</h5>
+					<ul>
+						{#each exercise.weekTwo as set}
+							<li>
+								1 x {set.minReps} @ {set.weight}, {set.percentage * 100}%
+							</li>
+						{/each}
+					</ul>
+				</div>
+				<div class="col-span-1 text-center">
+					<h5>Week {i + 3}</h5>
+					<ul>
+						{#each exercise.weekThree as set}
+							<li>
+								1 x {set.minReps} @ {set.weight}, {set.percentage * 100}%
+							</li>
+						{/each}
+					</ul>
+				</div>
+				<div class="col-span-1 text-center">
+					<h5>Deload</h5>
+					<ul>
+						{#each exercise.deload as set}
+							<li>
+								1 x {set.minReps} @ {set.weight}, {set.percentage * 100}%
+							</li>
+						{/each}
+					</ul>
+				</div>
 			</div>
 		</div>
 	{/each}

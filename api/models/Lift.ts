@@ -26,6 +26,7 @@ export class PrimaryLift extends Lift {
 
   get trainingBlock(): ExerciseBlock {
     return {
+      exercise: this.exercise,
       trainingMax: this.trainingMax,
       weekOne: [
         { percentage: 0.65, weight: this.#trainingMax * 0.65, minReps: 5 },
@@ -90,6 +91,7 @@ export class AccessoryLift extends Lift {
 
   get trainingBlock(): ExerciseBlock {
     return {
+      exercise: this.exercise,
       weekOne: this.#weights.map((weight) => ({ weight, minReps: 8 })),
       weekTwo: this.#weights.map((weight) => ({ weight, minReps: 8 })),
       weekThree: this.#weights.map((weight) => ({ weight, minReps: 8 })),
