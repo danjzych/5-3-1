@@ -6,19 +6,9 @@
 	import { user } from '../stores';
 	import { token } from './_stores';
 	import { goto } from '$app/navigation';
-	import Nav from './Nav.svelte';
+	import { page } from '$app/stores';
 
 	let loadingUser: boolean = true;
-
-	function logout() {
-		console.debug('logout');
-
-		$user = null;
-		$token = null;
-		_531API.token = null;
-
-		goto('/');
-	}
 
 	/** Get user from api based on token store. */
 	async function setUser() {
@@ -46,12 +36,14 @@
 	}
 
 	$: {
-		if ($user) goto('/dashboard');
+		const pathToFollow =
+			$page.url.pathname === '/' ? '/dashboard' : $page.url.pathname;
+
+		if ($user) goto(pathToFollow);
 	}
 </script>
 
-<Nav {logout} />
-<main class="position relative top-16 min-w-full p-4">
+<main class="min-w-full">
 	{#if loadingUser}
 		<!-- ADD LOADER COMPONENT -->
 		<p>loading...</p>
