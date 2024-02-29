@@ -7,9 +7,9 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../expressError.js";
-import { TrainingMax, TrainingBlock } from "../types.js";
+import { TrainingMax, TrainingBlock, iUser } from "../types.js";
 
-export default class User {
+export default class User implements iUser {
   constructor(
     readonly username: string,
     readonly email: string,

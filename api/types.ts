@@ -32,3 +32,11 @@ export type ExerciseBlock = {
 };
 
 export type TrainingBlock = Record<PrimaryLiftName, ExerciseBlock>;
+
+export interface iUser {
+  readonly username: string;
+  readonly email: string;
+  readonly isAdmin: boolean;
+  readonly joinDate: Date;
+  readonly trainingBlock?: TrainingBlock;
+}

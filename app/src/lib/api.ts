@@ -1,7 +1,9 @@
+import type { iUser } from '../../../api/types';
+
 const _531_BASE_URL = 'http://localhost:3000';
 
 export default class _531API {
-	static token = null;
+	static token: string | null = null;
 
 	static async request(
 		endpoint: string,
@@ -15,12 +17,14 @@ export default class _531API {
 			'content-type': 'application/json',
 		};
 
-		const body = JSON.stringify(data);
+		const body = method !== 'GET' ? JSON.stringify(data) : undefined;
 
 		const resp = await fetch(url, { method, headers, body });
 
 		if (resp.status !== 200) {
-			throw new Error('something went wrong');
+			console.error(`API ERROR: ${resp.status} ${resp.statusText}`);
+			const { error } = await resp.json();
+			throw new Error(error.message);
 		}
 
 		return await resp.json();
@@ -32,5 +36,11 @@ export default class _531API {
 		const resp = await _531API.request('auth/token', data, 'POST');
 
 		return resp.token;
+	}
+
+	static async getUser(username: string): Promise<iUser> {
+		const resp = await _531API.request(`users/${username}`);
+
+		return resp.user;
 	}
 }

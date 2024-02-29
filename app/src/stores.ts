@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
 
-import User from '../../api/models/User';
+import type { iUser } from '../../api/types';
 
-export const user = writable<User>;
+export const user = writable<iUser | null>(null);

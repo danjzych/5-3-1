@@ -12,6 +12,7 @@
 
 		try {
 			$token = await _531API.login(username, password);
+			localStorage.setItem('token', $token);
 		} catch (err) {
 			let message: string;
 
