@@ -7,7 +7,9 @@
 	let error: any;
 
 	/** 'Submit' form and make call to api for token*/
-	async function login() {
+	async function login(evt: Event) {
+		evt.preventDefault();
+
 		console.debug('login');
 
 		try {
