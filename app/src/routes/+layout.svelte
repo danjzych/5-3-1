@@ -8,6 +8,8 @@
 	import { goto } from '$app/navigation';
 	import Nav from './Nav.svelte';
 
+	let loadingUser: boolean = true;
+
 	function logout() {
 		console.debug('logout');
 
@@ -17,8 +19,6 @@
 
 		goto('/');
 	}
-
-	let loadingUser: boolean = true;
 
 	/** Get user from api based on token store. */
 	async function setUser() {
@@ -38,7 +38,6 @@
 
 	onMount(() => {
 		$token = localStorage.getItem('token');
-		if ($token) setUser();
 		loadingUser = false;
 	});
 
@@ -52,7 +51,7 @@
 </script>
 
 <Nav {logout} />
-<main class="posiion relative top-16">
+<main class="position relative top-16 min-w-full p-4">
 	{#if loadingUser}
 		<!-- ADD LOADER COMPONENT -->
 		<p>loading...</p>

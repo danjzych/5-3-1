@@ -20,5 +20,8 @@ export default {
 			},
 		},
 	},
-	plugins: [],
+	plugins: [require('daisyui')],
+	daisyui: {
+		themes: ['light'], //need to readd dark when ready
+	},
 };
