@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { user } from '../../stores';
 	import { ensureLoggedIn } from '$lib/utils';
 
 	ensureLoggedIn();
 </script>
 
 <h2 class="text-2xl">Home</h2>
+<p>Here's your account overview</p>
+<p>Upcoming workout goes here....</p>

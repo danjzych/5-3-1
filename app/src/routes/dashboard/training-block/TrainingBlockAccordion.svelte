@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TrainingBlock } from '../../../../api/types';
+	import type { TrainingBlock } from '../../../../../api/types';
 
 	export let trainingBlock: TrainingBlock;
 </script>
