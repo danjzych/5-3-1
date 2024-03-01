@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { user } from '../../../stores';
-	import { ensureLoggedIn } from '$lib/utils';
 	import TrainingBlockAccordion from './TrainingBlockAccordion.svelte';
-
-	ensureLoggedIn();
 </script>
 
 {#if $user?.trainingBlock}
