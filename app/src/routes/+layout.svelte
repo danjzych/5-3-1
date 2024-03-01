@@ -7,6 +7,7 @@
 	import { token } from './_stores';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import Nav from './Nav.svelte';
 
 	let loadingUser: boolean = true;
 
@@ -26,6 +27,17 @@
 		loadingUser = false;
 	}
 
+	function logout() {
+		console.debug('logout');
+
+		$user = null;
+		$token = null;
+		_531API.token = null;
+		localStorage.removeItem('token');
+
+		goto('/');
+	}
+
 	onMount(() => {
 		$token = localStorage.getItem('token');
 		loadingUser = false;
@@ -43,7 +55,8 @@
 	}
 </script>
 
-<main class="min-w-full">
+<Nav {logout} />
+<main class="position absolute top-16 min-w-full p-4">
 	{#if loadingUser}
 		<!-- ADD LOADER COMPONENT -->
 		<p>loading...</p>
