@@ -11,28 +11,38 @@ interface Set {
 }
 
 interface PrimarySet extends Set {
-  percentage?: number;
+  percentage: number;
   maxReps?: number | "max";
 }
 
-type RepScheme = Array<PrimarySet | Set>;
+type RepScheme<T = PrimarySet | Set> = Array<T>;
 
 export type TrainingMax = {
   exercise: PrimaryLiftName;
   weight: number;
 };
 
-//TODO: will eventually expand to have blocks for primary and non primary lists
-export type ExerciseBlock = {
+export type PrimaryExerciseBlock = {
   exercise: PrimaryLiftName;
-  trainingMax?: number;
-  weekOne: RepScheme;
-  weekTwo: RepScheme;
-  weekThree: RepScheme;
-  deload: RepScheme;
+  trainingMax: number;
+  weekOne: RepScheme<PrimarySet>;
+  weekTwo: RepScheme<PrimarySet>;
+  weekThree: RepScheme<PrimarySet>;
+  deload: RepScheme<PrimarySet>;
 };
 
-export type TrainingBlock = Array<ExerciseBlock>;
+export type AccessoryExerciseBlock = {
+  exercise: string;
+  weekOne: RepScheme<Set>;
+  weekTwo: RepScheme<Set>;
+  weekThree: RepScheme<Set>;
+  deload: RepScheme<Set>;
+};
+
+export type TrainingBlock = {
+  primary: PrimaryExerciseBlock[];
+  accessory?: AccessoryExerciseBlock[];
+};
 
 export interface iUser {
   readonly username: string;

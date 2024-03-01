@@ -5,7 +5,7 @@
 </script>
 
 <div class="join join-vertical my-4 w-full">
-	{#each trainingBlock as exercise, i}
+	{#each trainingBlock.primary as exercise, i}
 		<div class="collapse-arrow join-item border-base-950 collapse border">
 			<input
 				type="radio"

@@ -124,7 +124,9 @@ export default class User implements iUser {
 
     const currentTrainingBlock: TrainingBlock = {} as TrainingBlock;
 
-    return primaryLifts;
+    //TODO: get accessory lifts as well when the time comes
+
+    return { primary: primaryLifts };
   }
 
   /** Get a user by username. Throw error if they do not exist */

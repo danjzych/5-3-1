@@ -1,11 +1,15 @@
-import type { ExerciseBlock, PrimaryLiftName } from "../types";
+import type {
+  AccessoryExerciseBlock,
+  PrimaryExerciseBlock,
+  PrimaryLiftName,
+} from "../types";
 
 abstract class Lift {
   protected _exercise: PrimaryLiftName;
   constructor(exercise: PrimaryLiftName) {
     this._exercise = exercise;
   }
-  abstract get trainingBlock(): ExerciseBlock;
+  abstract get trainingBlock(): PrimaryExerciseBlock | AccessoryExerciseBlock;
 }
 
 export class PrimaryLift extends Lift {
@@ -24,7 +28,7 @@ export class PrimaryLift extends Lift {
     return this.#trainingMax;
   }
 
-  get trainingBlock(): ExerciseBlock {
+  get trainingBlock(): PrimaryExerciseBlock {
     return {
       exercise: this.exercise,
       trainingMax: this.trainingMax,
@@ -89,7 +93,7 @@ export class AccessoryLift extends Lift {
     return this.#weights;
   }
 
-  get trainingBlock(): ExerciseBlock {
+  get trainingBlock(): AccessoryExerciseBlock {
     return {
       exercise: this.exercise,
       weekOne: this.#weights.map((weight) => ({ weight, minReps: 8 })),
