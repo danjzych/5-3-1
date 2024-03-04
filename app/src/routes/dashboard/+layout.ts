@@ -4,7 +4,6 @@ import { redirect } from '@sveltejs/kit';
 
 export const load = () => {
 	if (!get(user)) {
-		console.warn('Redirected: User not logged in.');
-		redirect(302, '/');
+		redirect(307, '/');
 	}
 };
