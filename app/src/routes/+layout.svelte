@@ -49,7 +49,9 @@
 
 	$: {
 		const pathToFollow =
-			$page.url.pathname === '/' ? '/dashboard' : $page.url.pathname;
+			$page.url.pathname === '/' || $page.url.pathname === '/signup'
+				? '/dashboard'
+				: $page.url.pathname;
 
 		if ($user) goto(pathToFollow);
 	}

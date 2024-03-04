@@ -52,8 +52,9 @@ router.post("/register", async function (req, res, next) {
     req.body.email,
     false
   );
+  const token = createToken(newUser);
 
-  return res.status(201).json({ newUser });
+  return res.status(201).json({ token });
 });
 
 export default router;

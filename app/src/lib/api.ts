@@ -21,7 +21,7 @@ export default class _531API {
 
 		const resp = await fetch(url, { method, headers, body });
 
-		if (resp.status !== 200) {
+		if (!resp.ok) {
 			console.error(`API ERROR: ${resp.status} ${resp.statusText}`);
 			const { error } = await resp.json();
 			throw new Error(error.message);
@@ -34,6 +34,18 @@ export default class _531API {
 		const data = { username, password };
 
 		const resp = await _531API.request('auth/token', data, 'POST');
+
+		return resp.token;
+	}
+
+	static async signup(
+		username: string,
+		password: string,
+		email: string,
+	): Promise<string> {
+		const data = { username, password, email };
+
+		const resp = await _531API.request('auth/register', data, 'POST');
 
 		return resp.token;
 	}

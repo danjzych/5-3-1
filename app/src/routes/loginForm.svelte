@@ -59,5 +59,8 @@
 	{#if error}
 		{error}
 	{/if}
-	<button class="m-2 w-fit rounded-full border-2 px-4">Login</button>
+	<button
+		class="btn btn-sm disabled:btn-disabled"
+		disabled={!username || !password}>Login</button
+	>
 </form>
