@@ -16,12 +16,12 @@
 </script>
 
 <nav
-	class="from-thunderbird-100 position fixed flex h-16 min-w-full items-center justify-between bg-gradient-to-b to-transparent px-4 py-2"
+	class="from-thunderbird-100 position fixed h-16 min-w-full items-center justify-between bg-gradient-to-b to-transparent px-4 py-2 md:flex"
 >
 	<a href="/"
 		><h1 class="text-thunderbird-700 text-3xl font-extrabold">5/3/1</h1></a
 	>
-	<div class="flex gap-4">
+	<div class="flex items-center gap-4">
 		{#if $user}
 			{#each protectedLinks as link}
 				<NavLink {link} />
