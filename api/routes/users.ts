@@ -4,6 +4,7 @@ import { ensureCorrectUserOrAdmin } from "../middleware/auth.js";
 
 const router = express.Router({ mergeParams: true });
 
+/** Get User */
 router.get(
   "/:username",
   ensureCorrectUserOrAdmin,
@@ -14,13 +15,42 @@ router.get(
   }
 );
 
+/** Get users current training maxes */
 router.get(
   "/:username/training-maxes",
   ensureCorrectUserOrAdmin,
   async function (req, res, next) {
-    const training_maxes = await User.getTrainingMaxes(req.params.username);
+    const trainingMaxes = await User.getTrainingMaxes(req.params.username);
 
-    return res.json({ training_maxes });
+    return res.json({ trainingMaxes });
+  }
+);
+
+router.post(
+  "/:username/training-maxes",
+  ensureCorrectUserOrAdmin,
+  async function (req, res, next) {
+    const trainingMax = await User.addTrainingMax(
+      req.body.weight,
+      req.body.exerciseId,
+      req.body.trainingBlockId
+    );
+
+    return res.json({ trainingMax });
+  }
+);
+
+/** Create a new training block for a user */
+router.post(
+  "/:username/training-blocks",
+  ensureCorrectUserOrAdmin,
+  async function (req, res, next) {
+    const trainingBlock = await User.createTrainingBlock(
+      req.params.username,
+      req.body.trainingMaxes
+    );
+
+    return res.json({ trainingBlock });
   }
 );
 

@@ -7,7 +7,12 @@ import {
   NotFoundError,
   UnauthorizedError,
 } from "../expressError.js";
-import { TrainingMax, TrainingBlock, iUser } from "../types.js";
+import {
+  TrainingMax,
+  TrainingBlock,
+  iUser,
+  PrimaryLiftName,
+} from "../types.js";
 
 export default class User implements iUser {
   constructor(
@@ -89,14 +94,19 @@ export default class User implements iUser {
   }
 
   /** Get user's training maxes */
-  static async getTrainingMaxes(username: string): Promise<TrainingMax[]> {
+  static async getTrainingMaxes(
+    username: string,
+    limit: number = 1
+  ): Promise<TrainingMax[]> {
     const currentTrainingBlock = await db.query(
       `
     SELECT id
     FROM training_blocks
     WHERE username = $1
+    ORDER BY start_date desc
+    LIMIT $2
     `,
-      [username]
+      [username, limit]
     );
 
     const currentTrainingMaxes = await db.query(
@@ -110,6 +120,23 @@ export default class User implements iUser {
     );
 
     return currentTrainingMaxes.rows;
+  }
+
+  static async addTrainingMax(
+    weight: number,
+    exerciseId: number,
+    trainingBlockId: number
+  ): Promise<TrainingMax> {
+    const result = await db.query(
+      `
+      INSERT INTO training_maxes (weight_lb, exercise_id, training_block_id)
+      VALUES ($1, $2, $3)
+      RETURNING
+      exercise_id AS "exerciseId", weight_lb AS weight`,
+      [weight, exerciseId, trainingBlockId]
+    );
+
+    return result.rows[0];
   }
 
   /** Get user's current training block. Should not be called outside class */
@@ -151,5 +178,28 @@ export default class User implements iUser {
       user.joinDate,
       currentTrainingBlock
     );
+  }
+
+  static async createTrainingBlock(
+    username: string,
+    trainingMaxes: { id: number; weight: number }[]
+  ): Promise<TrainingBlock> {
+    //TODO: add pre check
+
+    const trainingBlockResult = await db.query(
+      `
+    INSERT INTO training_blocks (username)
+    VALUES ($1)
+    RETURNING id`,
+      [username]
+    );
+
+    const trainingBlockId: number = trainingBlockResult.rows[0].id;
+
+    for (const max of trainingMaxes) {
+      await User.addTrainingMax(max.weight, max.id, trainingBlockId);
+    }
+
+    return await User.getTrainingBlock(username);
   }
 }
