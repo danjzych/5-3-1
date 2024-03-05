@@ -39,6 +39,7 @@
 	}
 
 	onMount(() => {
+		//TODO: add error handling for if there is a token in memory, but that token does not correspond to a user and returns a 404
 		$token = localStorage.getItem('token');
 		loadingUser = false;
 	});
@@ -60,7 +61,7 @@
 <Nav {logout} />
 <main class="position absolute top-16 min-w-full p-4">
 	{#if loadingUser}
-		<!-- ADD LOADER COMPONENT -->
+		<!-- TODO: ADD LOADER COMPONENT -->
 		<p>loading...</p>
 	{:else}
 		<slot />

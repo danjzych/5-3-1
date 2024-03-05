@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user } from '../../../stores';
+	import { user } from '../../../../stores';
 	import TrainingBlockAccordion from './TrainingBlockAccordion.svelte';
 </script>
 

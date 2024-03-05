@@ -5,7 +5,7 @@
 	let username: string;
 	let password: string;
 	let email: string;
-	let error: any;
+	let error: string;
 
 	/** 'Submit' form and make call to api to register*/
 	async function signup(evt: Event) {

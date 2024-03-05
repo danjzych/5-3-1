@@ -4,7 +4,7 @@
 
 	let username: string;
 	let password: string;
-	let error: any;
+	let error: string;
 
 	/** 'Submit' form and make call to api for token*/
 	async function login(evt: Event) {
@@ -57,7 +57,9 @@
 		/>
 	</div>
 	{#if error}
-		{error}
+		<p class="alert alert-warning margin-auto w-1/2">
+			{error}
+		</p>
 	{/if}
 	<button
 		class="btn btn-sm disabled:btn-disabled"

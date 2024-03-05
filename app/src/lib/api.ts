@@ -55,4 +55,10 @@ export default class _531API {
 
 		return resp.user;
 	}
+
+	static async getExercises(): Promise<{ id: number; name: string }[]> {
+		const resp = await _531API.request('/exercises');
+
+		return resp.exercises;
+	}
 }
