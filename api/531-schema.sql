@@ -25,7 +25,9 @@ CREATE TABLE training_maxes (
     id SERIAL PRIMARY KEY,
     weight_lb INT NOT NULL,
     exercise_id INT NOT NULL REFERENCES exercises,
-    training_block_id INT NOT NULL REFERENCES training_blocks ON DELETE CASCADE
+    training_block_id INT NOT NULL REFERENCES training_blocks ON DELETE CASCADE,
+
+    UNIQUE(exercise_id, training_block_id)
 );
 
 CREATE TABLE workouts (
