@@ -16,15 +16,12 @@
 		console.debug('setUser');
 
 		_531API.token = $token;
-		localStorage.setItem('token', $token!);
 
 		const { username } = jwtDecode<{ username: string; password: string }>(
 			$token as string,
 		);
 
-		loadingUser = true;
 		$user = await _531API.getUser(username);
-		loadingUser = false;
 	}
 
 	function logout() {
@@ -38,15 +35,25 @@
 		goto('/');
 	}
 
-	onMount(() => {
+	onMount(async () => {
+		console.log('mount');
 		//TODO: add error handling for if there is a token in memory, but that token does not correspond to a user and returns a 404
 		$token = localStorage.getItem('token');
+
+		if ($token) {
+			await setUser();
+
+			const pathToFollow =
+				$page.url.pathname === '/' || $page.url.pathname === '/signup'
+					? '/dashboard'
+					: $page.url.pathname;
+
+			await goto(pathToFollow);
+		}
 		loadingUser = false;
 	});
 
-	$: {
-		if ($token) setUser();
-	}
+	$: if ($token) setUser();
 
 	$: {
 		const pathToFollow =
