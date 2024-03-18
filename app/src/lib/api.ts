@@ -1,4 +1,4 @@
-import type { iUser } from '../../../api/types';
+import type { PrimaryLiftName, iUser } from '../../../api/types';
 
 const _531_BASE_URL = 'http://localhost:3000';
 
@@ -56,8 +56,10 @@ export default class _531API {
 		return resp.user;
 	}
 
-	static async getExercises(): Promise<{ id: number; name: string }[]> {
-		const resp = await _531API.request('/exercises');
+	static async getExercises(): Promise<
+		{ id: number; name: PrimaryLiftName }[]
+	> {
+		const resp = await _531API.request('exercises');
 
 		return resp.exercises;
 	}

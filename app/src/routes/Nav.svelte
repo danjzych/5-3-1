@@ -12,6 +12,7 @@
 		{ name: 'Overview', path: '/dashboard' },
 		{ name: 'Training Block', path: '/dashboard/training-block' },
 		{ name: 'Training History', path: '/dashboard/history' },
+		{ name: 'Profile', path: '/profile' },
 	];
 </script>
 
@@ -27,7 +28,9 @@
 				<NavLink {link} />
 			{/each}
 			<!-- TODO: add pop up modal to confirm logout -->
-			<button on:click={logout}> Logout </button>
+			<button on:click={logout} class="btn btn-sm bg-thunderbird-300">
+				Logout
+			</button>
 		{:else}
 			{#each publicLinks as link}
 				<NavLink {link} />
