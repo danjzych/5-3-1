@@ -1,4 +1,8 @@
-import type { PrimaryLiftName, iUser } from '../../../api/types';
+import type {
+	PrimaryLiftName,
+	TrainingBlock,
+	iUser,
+} from '../../../api/types';
 
 const _531_BASE_URL = 'http://localhost:3000';
 
@@ -62,5 +66,18 @@ export default class _531API {
 		const resp = await _531API.request('exercises');
 
 		return resp.exercises;
+	}
+
+	static async createTrainingBlock(
+		username: string,
+		trainingMaxes: { id: number; weight: number }[],
+	): Promise<TrainingBlock> {
+		const resp = await _531API.request(
+			`users/${username}/training-blocks`,
+			{ trainingMaxes },
+			'POST',
+		);
+
+		return resp.trainingBlock;
 	}
 }

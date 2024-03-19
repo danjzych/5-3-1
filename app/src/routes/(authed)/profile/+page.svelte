@@ -1,6 +1,9 @@
 <script lang="ts">
 	import type { PrimaryLiftName } from '../../../../../api/types';
 	import type { PageData } from './$types';
+	import _531API from '$lib/api';
+	import { tick } from 'svelte';
+	import { user } from '../../../stores';
 	import { goto } from '$app/navigation';
 
 	export let data: PageData;
@@ -14,6 +17,7 @@
 		weight: 0,
 	};
 	let trainingMaxValid = false;
+	let error: string;
 
 	$: trainingMaxValid =
 		currentInputState.id <= exerciseChoices.length &&
@@ -38,12 +42,33 @@
 
 		evt.preventDefault();
 
-		await goto('/dashboard/training-block');
-
 		try {
-			await goto('/dashboard/training-block');
+			const trainingBlock = await _531API.createTrainingBlock(
+				$user!.username,
+				trainingMaxes,
+			);
+
+			user.set({
+				...$user!,
+				trainingBlock,
+			});
+
+			await tick();
+			goto('/dashboard/training-block');
 		} catch (err) {
 			console.error(err);
+
+			let message: string;
+
+			if (err instanceof Error) {
+				message = err.message;
+			} else {
+				message = String(err);
+			}
+
+			error = message;
+
+			setTimeout(() => error === undefined, 2000);
 		}
 	}
 </script>
@@ -104,7 +129,7 @@
 	</div>
 	<button
 		class="btn btn-md bg-thunderbird-400"
-		disabled={trainingMaxes.length === 0}
+		disabled={trainingMaxes.length === 0 && !error}
 	>
 		Add Training Maxes
 	</button>
